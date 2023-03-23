@@ -1,0 +1,26 @@
+{
+  "name": "odin-weather-app",
+  "version": "1.0.0",
+  "description": "This project will be a weather app which fetches data from a free weather API after taking in a location search term and displays a small weather report for that location.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrinLewis/odin-weather-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BrinLewis/odin-weather-app/issues"
+  },
+  "homepage": "https://github.com/BrinLewis/odin-weather-app#readme",
+  "devDependencies": {
+    "css-loader": "^6.7.3",
+    "html-webpack-plugin": "^5.5.0",
+    "style-loader": "^3.3.2",
+    "webpack": "^5.76.3",
+    "webpack-cli": "^5.0.1"
+  }
+}
