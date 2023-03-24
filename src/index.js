@@ -1,9 +1,9 @@
 import "./styles.css";
 
-async function fetchData() {
+async function fetchData(location) {
   try {
     const response = await fetch(
-      "http://api.weatherapi.com/v1/forecast.json?key=222ad05058b944fc8ab123938232303&q=Bristol&days=7&aqi=no&alerts=no"
+      `http://api.weatherapi.com/v1/forecast.json?key=222ad05058b944fc8ab123938232303&q=${location}&days=7&aqi=no&alerts=no`
     );
     const data = await response.json();
     console.log(data);
@@ -13,8 +13,8 @@ async function fetchData() {
   }
 }
 
-async function getRelevantData() {
-  const allData = await fetchData();
+async function getRelevantData(location) {
+  const allData = await fetchData(location);
 
   let relevantData = {
     location: allData.location.name,
@@ -31,13 +31,25 @@ async function getRelevantData() {
     windSpeed: allData.current.wind_mph,
     allWeekForecast: allData.forecast.forecastday,
     allDayForecast: allData.forecast.forecastday[0].hour,
-  }
+  };
 
   console.log(relevantData);
   return relevantData;
 }
 
-getRelevantData()
+getRelevantData("Bristol");
+
+const searchBar = document.getElementById("search-input");
+searchBar.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    getRelevantData(searchBar.value);
+  }
+});
+
+const searchBtn = document.getElementById("search-button");
+searchBtn.addEventListener("click", () => {
+  getRelevantData(searchBar.value);
+});
 
 // Data I need
 // .location.name   x
