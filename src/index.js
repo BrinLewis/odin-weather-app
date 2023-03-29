@@ -9,16 +9,19 @@ async function fetchData(location) {
       { mode: "cors" }
     );
     const data = await response.json();
-    console.log(data);
-    return data;
+
+    // API can resolve the promise but return an error object with a message, if that happens, return the error message.
+    if (data.error) {
+      return [undefined, data.error.message];
+    } else {
+      return [data, undefined];
+    }
   } catch {
-    alert("Something went wrong!");
+    return [undefined , "Something went wrong, please refresh or try again later"];
   }
 }
 
-async function getRelevantData(location) {
-  const allData = await fetchData(location);
-
+function getRelevantData(allData) {
   let relevantData = {
     refNum: allData.current.last_updated_epoch,
     city: allData.location.name,
@@ -37,20 +40,19 @@ async function getRelevantData(location) {
     allDayForecast: allData.forecast.forecastday[0].hour,
   };
 
-  console.log(relevantData);
   return relevantData;
 }
 
 const searchBar = document.getElementById("search-input");
 searchBar.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    renderInfo();
+    renderPage();
   }
 });
 
 const searchBtn = document.getElementById("search-button");
 searchBtn.addEventListener("click", () => {
-  renderInfo();
+  renderPage();
 });
 
 function getLocation() {
@@ -63,15 +65,22 @@ function getLocation() {
   return loc;
 }
 
-async function renderInfo() {
-  const loc = getLocation();
-  const data = await getRelevantData(loc);
-  renderCurrent(data);
-  renderNextHours(data);
-  renderNextDays(data);
+async function renderPage() {
+  const location = getLocation();
+
+  // fetchData will return either [data,] or [, errorMsg], if there is an error, alert msg and exit function.
+  const [data, errorMsg] = await fetchData(location);
+  if (errorMsg) {
+    alert(errorMsg);
+    return;
+  }
+  const relevantData = getRelevantData(data);
+  renderCurrent(relevantData);
+  renderNextHours(relevantData);
+  renderNextDays(relevantData);
 }
 
-async function renderCurrent(data) {
+function renderCurrent(data) {
   const locationEl = document.querySelector(".location");
   locationEl.textContent = `${data.city}, ${data.country}`;
 
@@ -82,7 +91,7 @@ async function renderCurrent(data) {
   const dayEl = document.querySelector(".current-day");
   const dateData = data.currentDateTime.split(" ")[0];
   const date = new Date(dateData);
-  const day = date.toLocaleDateString("en-GB", {weekday: "long"});
+  const day = date.toLocaleDateString("en-GB", { weekday: "long" });
   dayEl.textContent = day;
 
   const tempEl = document.querySelector(".current-temp");
@@ -105,7 +114,7 @@ async function renderCurrent(data) {
   windspeedEl.textContent = `Wind Speed: ${data.windSpeed}mph`;
 }
 
-async function renderNextHours(data) {
+function renderNextHours(data) {
   let i = 0;
   data.allDayForecast.forEach((hour) => {
     if (data.refNum < hour.time_epoch && i < 4) {
@@ -134,7 +143,7 @@ function createHourlyTab(hour, i) {
   container.appendChild(icon);
 }
 
-async function renderNextDays(data) {
+function renderNextDays(data) {
   data.allWeekForecast.forEach((day, index) => {
     if (index !== 0) {
       createDayTab(day, index);
@@ -143,7 +152,6 @@ async function renderNextDays(data) {
 }
 
 function createDayTab(dayData, dayIndex) {
-  console.log(dayData);
   const date = new Date(dayData.date).toDateString();
   const day = date.split(" ")[0];
   const dayEl = document.createElement("div");
@@ -162,7 +170,7 @@ function createDayTab(dayData, dayIndex) {
   container.appendChild(icon);
 }
 
-renderInfo();
+renderPage();
 
 // Data I need
 // .location.name   x
