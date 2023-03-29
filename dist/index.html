@@ -18,27 +18,32 @@
     <div class="today-weather">
       <img src="#" alt="no current icon" class="main-icon">
       <div class="main-info">
-        <h3>London, United Kingdom</h3>
+        <h3 class="location"></h3>
         <div class="current-values">
-          <div class="current-temp">13°</div>
-          <div class="current-time">11am</div>
+          <div class="current-day"></div>
+          <div class="current-temp"></div>
+          <div class="current-time"></div>
         </div>
         <div class="hourly-info-container">
-
+          <div class="hourly-info" id="hour-1"></div>
+          <div class="hourly-info" id="hour-2"></div>
+          <div class="hourly-info" id="hour-3"></div>
+          <div class="hourly-info" id="hour-4"></div>
         </div>
       </div>
       <div class="extra-info">
         <ul>
-          <li>Feels Like: 15</li>
-          <li>Humidity: 67%</li>
-          <li>Chance of Rain (today): 84%</li>
-          <li>Wind Speed: 17mph</li>
+          <li id="feelslike">Feels Like: 88</li>
+          <li id="humidity">Humidity: 110%</li>
+          <li id="chanceofrain">Chance of Rain (today): 443%</li>
+          <li id="windspeed">Wind Speed: fastmph</li>
         </ul>
       </div>
     </div>
-    <h2 class="heading">This Week</h2>
-    <div class="week-weather">
-      
+    <h2 class="heading">Upcoming</h2>
+    <div class="weekly-info-container">
+      <div class="weekly-info" id="day-1"></div>
+      <div class="weekly-info" id="day-2"></div>
     </div>
   </div>
   <div class="credits">
