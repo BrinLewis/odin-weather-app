@@ -1,4 +1,8 @@
 import "./styles.css";
+import "./assets/magnify.svg";
+
+const searchIcon = document.getElementById("search-icon");
+searchIcon.src = "./assets/magnify.svg";
 
 let defaultLocation = "London";
 
@@ -9,6 +13,7 @@ async function fetchData(location) {
       { mode: "cors" }
     );
     const data = await response.json();
+    console.log(data)
 
     // API can resolve the promise but return an error object with a message, if that happens, return the error message.
     if (data.error) {
@@ -85,7 +90,9 @@ function renderCurrent(data) {
   locationEl.textContent = `${data.city}, ${data.country}`;
 
   const iconEl = document.querySelector(".main-icon");
-  iconEl.src = `http:${data.icon}`;
+  const iconSrc = data.icon.replace("64x64", "128x128");
+  console.log(iconSrc)
+  iconEl.src = `http:${iconSrc}`;
   iconEl.alt = `${data.condition} icon`;
 
   const dayEl = document.querySelector(".current-day");
@@ -128,15 +135,18 @@ function createHourlyTab(hour, i) {
   const container = document.getElementById(`hour-${i + 1}`);
 
   const temp = document.createElement("div");
-  temp.textContent = `${hour.temp_c}°`;
+  temp.textContent = `${Math.round(hour.temp_c)}°`;
+  temp.classList.add("hourly-temp");
 
   const timeEl = document.createElement("div");
   const timeData = hour.time.split(" ")[1];
   timeEl.textContent = timeData;
+  timeEl.classList.add("hourly-time");
 
   const icon = document.createElement("img");
   icon.src = `http:${hour.condition.icon}`;
   icon.alt = `${hour.condition.text} icon`;
+  icon.classList.add("icon");
 
   container.appendChild(temp);
   container.appendChild(timeEl);
@@ -158,11 +168,12 @@ function createDayTab(dayData, dayIndex) {
   dayEl.textContent = day;
 
   const temp = document.createElement("div");
-  temp.textContent = `${dayData.day.mintemp_c}° - ${dayData.day.maxtemp_c}`;
+  temp.textContent = `${Math.round(dayData.day.mintemp_c)}° - ${Math.round(dayData.day.maxtemp_c)}°`;
 
   const icon = document.createElement("img");
   icon.src = `http:${dayData.day.condition.icon}`;
   icon.alt = `${dayData.day.condition.icon} icon`;
+  icon.classList.add("icon");
 
   const container = document.getElementById(`day-${dayIndex}`);
   container.appendChild(dayEl);
