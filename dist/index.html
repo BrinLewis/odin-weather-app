@@ -10,17 +10,22 @@
   <div class="main-container">
     <h1 id="header">Weather App</h1>
     <div class="search-container">
-      <p>Search Location:</p>
-      <input type="search" id="search-input">
-      <button type="button" id="search-button">Search</button>
+      <input type="search" id="search-input" placeholder="Search Location...">
+      <button type="button" id="search-button">
+        <img src="#" alt="search icon" id="search-icon">
+      </button>
     </div>
     <h2 class="heading">Today</h2>
     <div class="today-weather">
-      <img src="#" alt="no current icon" class="main-icon">
+      <div class="main-icon-container">
+        <img src="#" alt="no current icon" class="main-icon">
+      </div>
       <div class="main-info">
-        <h3 class="location"></h3>
-        <div class="current-values">
+        <div class="day-location-container">
           <div class="current-day"></div>
+          <h3 class="location"></h3>
+        </div>
+        <div class="current-values">
           <div class="current-temp"></div>
           <div class="current-time"></div>
         </div>
