@@ -167,9 +167,11 @@ function createDayTab(dayData, dayIndex) {
   const day = date.split(" ")[0];
   const dayEl = document.createElement("div");
   dayEl.textContent = day;
+  dayEl.classList.add("upcoming-day");
 
   const temp = document.createElement("div");
   temp.textContent = `${Math.round(dayData.day.mintemp_c)}° - ${Math.round(dayData.day.maxtemp_c)}°`;
+  temp.classList.add("upcoming-temp");
 
   const icon = document.createElement("img");
   icon.src = `http:${dayData.day.condition.icon}`;
@@ -183,23 +185,3 @@ function createDayTab(dayData, dayIndex) {
 }
 
 renderPage();
-
-// Data I need
-// .location.name   x
-//          .country   x
-//
-// .current.feelslike_c
-//         .feelslike_f
-//         .wind_kph
-//         .wind_mph
-//         .humidity
-//         .temp_c   x
-//         .temp_f   x
-//
-//         .condition.text
-//                   .icon
-//
-//
-//
-// Getting next 4 hours forecast:
-// Get data.current.last_updated_epoch, loop through each hour of data.forecast.forecastday[0].hour, and if last updated < current time_epoch, add it to "next 4 hours" array and increment i (stop looping when i = 3)
