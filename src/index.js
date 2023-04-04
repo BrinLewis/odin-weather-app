@@ -1,5 +1,6 @@
 import "./styles.css";
 import "./assets/magnify.svg";
+import { setBackgroundImg } from "./background-logic";
 
 const searchIcon = document.getElementById("search-icon");
 searchIcon.src = "./assets/magnify.svg";
@@ -13,7 +14,6 @@ async function fetchData(location) {
       { mode: "cors" }
     );
     const data = await response.json();
-    console.log(data)
 
     // API can resolve the promise but return an error object with a message, if that happens, return the error message.
     if (data.error) {
@@ -80,6 +80,8 @@ async function renderPage() {
     return;
   }
   const relevantData = getRelevantData(data);
+  
+  setBackgroundImg(relevantData);
   renderCurrent(relevantData);
   renderNextHours(relevantData);
   renderNextDays(relevantData);
@@ -91,7 +93,6 @@ function renderCurrent(data) {
 
   const iconEl = document.querySelector(".main-icon");
   const iconSrc = data.icon.replace("64x64", "128x128");
-  console.log(iconSrc)
   iconEl.src = `http:${iconSrc}`;
   iconEl.alt = `${data.condition} icon`;
 
