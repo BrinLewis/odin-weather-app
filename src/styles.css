@@ -6,6 +6,7 @@
   list-style: none;
   font-family: "Inter", sans-serif;
   font-weight: 900;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.466);
 }
 
 body {
@@ -48,6 +49,10 @@ body {
   background-color: rgba(0, 0, 0, 0.199);
   padding-left: 7px;
   font-size: 20px;
+}
+
+#search-input::placeholder {
+  color: black;
 }
 
 #search-button {
@@ -155,8 +160,11 @@ font-size: 60px;
 .extra-info,
 .weekly-info {
   padding: 10px;
-  background-color: rgba(0, 0, 0, 0.199);
+  background-color: rgba(0, 0, 0, 0.274);
+  border: 1px solid rgba(0, 0, 0, 0.281);
   border-radius: 10px;
+  
+  box-shadow: 0 0 3px 1px rgba(255, 255, 255, 0.205);
 }
 
 .weekly-info-container {
