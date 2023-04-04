@@ -95,6 +95,7 @@ function renderCurrent(data) {
   const iconSrc = data.icon.replace("64x64", "128x128");
   iconEl.src = `http:${iconSrc}`;
   iconEl.alt = `${data.condition} icon`;
+  iconEl.title = `${data.condition}`;
 
   const dayEl = document.querySelector(".current-day");
   const dateData = data.currentDateTime.split(" ")[0];
@@ -145,6 +146,7 @@ function createHourlyTab(hour, i) {
   const icon = container.querySelector(".icon");
   icon.src = `http:${hour.condition.icon}`;
   icon.alt = `${hour.condition.text} icon`;
+  icon.title = `${hour.condition.text}`;
 }
 
 function renderNextDays(data) {
@@ -169,11 +171,7 @@ function createDayTab(dayData, dayIndex) {
   const icon = container.querySelector(".icon");
   icon.src = `http:${dayData.day.condition.icon}`;
   icon.alt = `${dayData.day.condition.icon} icon`;
-  icon.classList.add("icon");
-}
-
-function clearInfo() {
-  
+  icon.title = `${dayData.day.condition.text}`;
 }
 
 renderPage();
