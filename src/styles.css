@@ -111,6 +111,14 @@ body {
   grid-column: span 2;
 }
 
+.current-day {
+  font-size: 20px;
+}
+
+.location {
+  font-size: 25px;
+}
+
 .current-temp {
 font-size: 60px;
 }
@@ -151,6 +159,7 @@ font-size: 60px;
 
 .extra-info li {
   padding-bottom: 10px;
+  font-weight: 900;
 }
 
 .main-icon-container,
@@ -169,13 +178,23 @@ font-size: 60px;
 
 .weekly-info-container {
   display: flex;
-  gap: 20px;
+  gap: 30px;
 }
 
 .weekly-info {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 90px;
+}
+
+.upcoming-day {
+  font-size: 20px;
+  padding-bottom: 10px;
+}
+
+.upcoming-temp {
+  font-size: 20px;
 }
 
 .credits {
@@ -183,18 +202,3 @@ font-size: 60px;
   bottom: 10px;
   align-self: center;
 }
-
-/* .main-container, 
-#header,
-.search-container,
-.heading {
-  border: 1px solid red;
-} */
-
-/* .today-weather > * {
-  border: 1px solid lime;
-} */
-
-/* .main-info > * {
-  border: 1px solid purple;
-} */
