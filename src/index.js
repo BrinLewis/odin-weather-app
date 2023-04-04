@@ -135,23 +135,16 @@ function renderNextHours(data) {
 function createHourlyTab(hour, i) {
   const container = document.getElementById(`hour-${i + 1}`);
 
-  const temp = document.createElement("div");
+  const temp = container.querySelector(".hourly-temp");
   temp.textContent = `${Math.round(hour.temp_c)}°`;
-  temp.classList.add("hourly-temp");
 
-  const timeEl = document.createElement("div");
+  const timeEl = container.querySelector(".hourly-time");
   const timeData = hour.time.split(" ")[1];
   timeEl.textContent = timeData;
-  timeEl.classList.add("hourly-time");
 
-  const icon = document.createElement("img");
+  const icon = container.querySelector(".icon");
   icon.src = `http:${hour.condition.icon}`;
   icon.alt = `${hour.condition.text} icon`;
-  icon.classList.add("icon");
-
-  container.appendChild(temp);
-  container.appendChild(timeEl);
-  container.appendChild(icon);
 }
 
 function renderNextDays(data) {
@@ -163,25 +156,24 @@ function renderNextDays(data) {
 }
 
 function createDayTab(dayData, dayIndex) {
+  const container = document.getElementById(`day-${dayIndex}`);
+
   const date = new Date(dayData.date).toDateString();
   const day = date.split(" ")[0];
-  const dayEl = document.createElement("div");
+  const dayEl = container.querySelector(".upcoming-day");
   dayEl.textContent = day;
-  dayEl.classList.add("upcoming-day");
 
-  const temp = document.createElement("div");
+  const temp = container.querySelector(".upcoming-temp");
   temp.textContent = `${Math.round(dayData.day.mintemp_c)}° - ${Math.round(dayData.day.maxtemp_c)}°`;
-  temp.classList.add("upcoming-temp");
 
-  const icon = document.createElement("img");
+  const icon = container.querySelector(".icon");
   icon.src = `http:${dayData.day.condition.icon}`;
   icon.alt = `${dayData.day.condition.icon} icon`;
   icon.classList.add("icon");
+}
 
-  const container = document.getElementById(`day-${dayIndex}`);
-  container.appendChild(dayEl);
-  container.appendChild(temp);
-  container.appendChild(icon);
+function clearInfo() {
+  
 }
 
 renderPage();
