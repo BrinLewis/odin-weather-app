@@ -10,7 +10,7 @@ let defaultLocation = "London";
 
 const btn = document.querySelector(".switch-units");
 btn.addEventListener("click", () => {
-  switchTempUnit()
+  switchTempUnit();
   renderPage();
 });
 
