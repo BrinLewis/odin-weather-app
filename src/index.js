@@ -104,7 +104,7 @@ function renderCurrent(data) {
 
   const iconEl = document.querySelector(".main-icon");
   const iconSrc = data.icon.replace("64x64", "128x128");
-  iconEl.src = `http:${iconSrc}`;
+  iconEl.src = `https:${iconSrc}`;
   iconEl.alt = `${data.condition} icon`;
   iconEl.title = `${data.condition}`;
 
@@ -156,7 +156,7 @@ function createHourlyTab(hourData, i) {
   timeEl.textContent = timeData;
 
   const icon = container.querySelector(".icon");
-  icon.src = `http:${hourData.condition.icon}`;
+  icon.src = `https:${hourData.condition.icon}`;
   icon.alt = `${hourData.condition.text} icon`;
   icon.title = `${hourData.condition.text}`;
 }
@@ -192,7 +192,7 @@ function createDayTab(dayData, dayIndex) {
   tempEl.textContent = `${Math.round(temps.mintemp)}° - ${Math.round(temps.maxtemp)}°`;
 
   const icon = container.querySelector(".icon");
-  icon.src = `http:${dayData.day.condition.icon}`;
+  icon.src = `https:${dayData.day.condition.icon}`;
   icon.alt = `${dayData.day.condition.icon} icon`;
   icon.title = `${dayData.day.condition.text}`;
 }
