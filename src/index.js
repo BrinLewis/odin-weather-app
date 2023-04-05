@@ -1,11 +1,30 @@
 import "./styles.css";
 import "./assets/magnify.svg";
 import { setBackgroundImg } from "./background-logic";
+import { tempUnit, switchTempUnit} from "./temp-switch";
 
 const searchIcon = document.getElementById("search-icon");
 searchIcon.src = "./assets/magnify.svg";
 
 let defaultLocation = "London";
+
+const btn = document.querySelector(".switch-units");
+btn.addEventListener("click", () => {
+  switchTempUnit()
+  renderPage();
+});
+
+const searchBar = document.getElementById("search-input");
+searchBar.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    renderPage();
+  }
+});
+
+const searchBtn = document.getElementById("search-button");
+searchBtn.addEventListener("click", () => {
+  renderPage();
+});
 
 async function fetchData(location) {
   try {
@@ -31,13 +50,17 @@ function getRelevantData(allData) {
     refNum: allData.current.last_updated_epoch,
     city: allData.location.name,
     country: allData.location.country,
-    currentTempC: allData.current.temp_c,
-    currentTempF: allData.current.temp_f,
+    currentTemp: {
+      c: allData.current.temp_c,
+      f: allData.current.temp_f,
+    },
     currentDateTime: allData.current.last_updated,
     condition: allData.current.condition.text,
     icon: allData.current.condition.icon,
-    feelsLikeC: allData.current.feelslike_c,
-    feelsLikeF: allData.current.feelslike_f,
+    feelsLike: {
+      c: allData.current.feelslike_c,
+      f: allData.current.feelslike_f,
+    },
     humidity: allData.current.humidity,
     chanceOfRainToday: allData.forecast.forecastday[0].day.daily_chance_of_rain,
     windSpeed: allData.current.wind_mph,
@@ -47,18 +70,6 @@ function getRelevantData(allData) {
 
   return relevantData;
 }
-
-const searchBar = document.getElementById("search-input");
-searchBar.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    renderPage();
-  }
-});
-
-const searchBtn = document.getElementById("search-button");
-searchBtn.addEventListener("click", () => {
-  renderPage();
-});
 
 function getLocation() {
   let loc;
@@ -104,14 +115,14 @@ function renderCurrent(data) {
   dayEl.textContent = day;
 
   const tempEl = document.querySelector(".current-temp");
-  tempEl.textContent = `${data.currentTempC}°`;
+  tempEl.textContent = `${Math.round(data.currentTemp[tempUnit])}°`;
 
   const timeEl = document.querySelector(".current-time");
   const timeData = data.currentDateTime.split(" ")[1];
   timeEl.textContent = timeData;
 
   const feelslikeEl = document.getElementById("feelslike");
-  feelslikeEl.textContent = `Feels Like: ${data.feelsLikeC}°`;
+  feelslikeEl.textContent = `Feels Like: ${data.feelsLike[tempUnit]}°`;
 
   const humidityEl = document.getElementById("humidity");
   humidityEl.textContent = `Humidity: ${data.humidity}%`;
@@ -133,20 +144,31 @@ function renderNextHours(data) {
   });
 }
 
-function createHourlyTab(hour, i) {
+function createHourlyTab(hourData, i) {
   const container = document.getElementById(`hour-${i + 1}`);
 
-  const temp = container.querySelector(".hourly-temp");
-  temp.textContent = `${Math.round(hour.temp_c)}°`;
+  const temp = getHourlyTemp(hourData);
+  const tempEl = container.querySelector(".hourly-temp");
+  tempEl.textContent = `${Math.round(temp)}°`;
 
   const timeEl = container.querySelector(".hourly-time");
-  const timeData = hour.time.split(" ")[1];
+  const timeData = hourData.time.split(" ")[1];
   timeEl.textContent = timeData;
 
   const icon = container.querySelector(".icon");
-  icon.src = `http:${hour.condition.icon}`;
-  icon.alt = `${hour.condition.text} icon`;
-  icon.title = `${hour.condition.text}`;
+  icon.src = `http:${hourData.condition.icon}`;
+  icon.alt = `${hourData.condition.text} icon`;
+  icon.title = `${hourData.condition.text}`;
+}
+
+function getHourlyTemp(data) {
+  let temp;
+  if (tempUnit === "f") {
+    temp = data.temp_f;
+  } else {
+    temp = data.temp_c;
+  }
+  return temp;
 }
 
 function renderNextDays(data) {
@@ -165,13 +187,32 @@ function createDayTab(dayData, dayIndex) {
   const dayEl = container.querySelector(".upcoming-day");
   dayEl.textContent = day;
 
-  const temp = container.querySelector(".upcoming-temp");
-  temp.textContent = `${Math.round(dayData.day.mintemp_c)}° - ${Math.round(dayData.day.maxtemp_c)}°`;
+  const temps = getDayTemps(dayData);
+  const tempEl = container.querySelector(".upcoming-temp");
+  tempEl.textContent = `${Math.round(temps.mintemp)}° - ${Math.round(temps.maxtemp)}°`;
 
   const icon = container.querySelector(".icon");
   icon.src = `http:${dayData.day.condition.icon}`;
   icon.alt = `${dayData.day.condition.icon} icon`;
   icon.title = `${dayData.day.condition.text}`;
+}
+
+function getDayTemps(data) {
+  let mintemp;
+  let maxtemp;
+
+  if (tempUnit === "f") {
+    mintemp = data.day.mintemp_f;
+    maxtemp = data.day.maxtemp_f;
+  } else {
+    mintemp = data.day.mintemp_c;
+    maxtemp = data.day.maxtemp_c;
+  }
+
+  return {
+    mintemp,
+    maxtemp,
+  }
 }
 
 renderPage();
