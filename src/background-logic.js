@@ -23,7 +23,6 @@ export function setBackgroundImg(data) {
   for (const [key, wordlist] of Object.entries(allConditions)) {
     wordlist.forEach((word) => {
       if (condition.toLowerCase().includes(word)) {
-        console.log(key)
         return image = key;
       }
     });
